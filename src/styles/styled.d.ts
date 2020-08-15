@@ -21,6 +21,7 @@ declare module 'styled-components' {
       lineWhite: string;
       inputBackground: string;
       buttonText: string;
+      buttonDisabled: string;
       boxBase: string;
       boxFooter: string;
     };

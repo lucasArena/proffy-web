@@ -32,6 +32,7 @@
     "prettier/prettier": "error",
     "camelcase": "off",
     "import/no-duplicates": "off",
+    "jsx-a11y/label-has-associated-control": "off",
     "@typescript-eslint/ban-types": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",

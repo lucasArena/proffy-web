@@ -4,12 +4,21 @@ import { useField } from '@unform/core';
 import { Container } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   id?: string;
   name: string;
+  icon?: string;
+  iconAction?: () => void;
 }
 
-const Input: React.FC<InputProps> = ({ label, id, name, ...rest }) => {
+const Input: React.FC<InputProps> = ({
+  label,
+  id,
+  name,
+  icon,
+  iconAction,
+  ...rest
+}) => {
   const inputRef = useRef(null);
   const { defaultValue, fieldName, registerField } = useField(name);
 
@@ -22,12 +31,17 @@ const Input: React.FC<InputProps> = ({ label, id, name, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container>
-      <label htmlFor={id}>
-        {label}
+    <>
+      <label htmlFor={id}>{label}</label>
+      <Container>
         <input ref={inputRef} defaultValue={defaultValue} id={id} {...rest} />
-      </label>
-    </Container>
+        {icon && (
+          <button type="button" onClick={iconAction}>
+            <img src={icon} alt="Icone" />
+          </button>
+        )}
+      </Container>
+    </>
   );
 };
 
