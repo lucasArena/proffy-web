@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { Form as UnformForm } from '@unform/web';
 import { lighten } from 'polished';
+import { Form as UnformForm } from '@unform/web';
 
 export const Container = styled.div`
   width: 100vw;
@@ -26,70 +26,70 @@ export const Container = styled.div`
   }
 `;
 
-export const HeaderContent = styled.div`
+export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
 
-  strong {
+  h2 {
     font-family: Archivo;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 2.5rem;
+    text-align: center;
     color: ${(props) => props.theme.colors.boxBase};
-    line-height: 4.2rem;
-    text-align: center;
-    font-size: 2.4rem;
+    margin-top: 32px;
   }
 
-  p {
+  span {
+    margin-top: 16px;
     font-family: Poppins;
-    line-height: 2.6rem;
+    font-size: 20px;
+    line-height: 26px;
     color: ${(props) => props.theme.colors.textPrimary};
-    font-size: 1.6rem;
-    text-align: center;
+  }
+`;
+
+export const AvatarContainer = styled.label`
+  position: relative;
+  cursor: pointer;
+
+  img {
+    width: 18rem;
+    height: 18rem;
+    border-radius: 50%;
   }
 
-  aside {
+  input {
+    display: none;
+  }
+
+  div {
+    position: absolute;
+    right: 0px;
+    width: 48px;
+    height: 48px;
+    bottom: 0;
+    border: 0;
+    padding: 2px;
+    background: ${(props) => props.theme.colors.secundary};
+    border-radius: 50%;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 1.4rem;
+    transition: background 0.2s;
 
-    font-family: Poppins;
-    font-size: 1.2rem;
-    line-height: 2rem;
-    color: ${(props) => props.theme.colors.textPrimary};
-
-    img {
-      margin-right: 1.6rem;
-    }
-  }
-
-  @media (min-width: 700px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-      'title empty'
-      'description iconarea';
-
-    strong {
-      grid-area: title;
-      display: flex;
-      align-items: center;
-      font-size: 3.6rem;
-      text-align: left;
+    &:hover {
+      background: ${(props) => props.theme.colors.secundaryDark};
     }
 
-    p {
-      grid-area: description;
-      display: flex;
-      align-items: center;
-      text-align: left;
-    }
-
-    aside {
-      grid-area: iconarea;
-      display: flex;
-      align-items: center;
+    svg {
+      width: 18px;
+      height: 18px;
+      color: ${(props) => props.theme.colors.boxBase};
     }
   }
 `;
@@ -218,27 +218,6 @@ export const InputGroup = styled.div`
         margin-left: 3.2rem;
       }
     }
-  }
-`;
-
-export const UserInfo = styled.section`
-  display: flex;
-  align-items: center;
-  flex: 1;
-
-  img {
-    width: 8rem;
-    height: 8rem;
-    border-radius: 50%;
-    margin-right: 2.4rem;
-  }
-
-  span {
-    font-family: Archivo;
-    font-weight: bold;
-    font-size: 2rem;
-    line-height: 2.5rem;
-    color: ${(props) => props.theme.colors.textTitle};
   }
 `;
 

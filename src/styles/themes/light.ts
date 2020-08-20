@@ -18,6 +18,7 @@ export default {
     lineWhite: '#E6E6F0',
     inputBackground: '#F8F8FC',
     buttonText: '#FFFFFF',
+    deleteButtonText: '#e33d3d',
     buttonDisabled: '#DCDCE6',
     boxBase: '#FFFFFF',
     boxFooter: '#FAFAFC',

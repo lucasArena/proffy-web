@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { Container } from './styles';
+import { Container, ClassesList, ClassesListItem } from './styles';
 
 import whatsappImg from '../../assets/images/icons/whatsapp.svg';
 import api from '../../services/api';
@@ -40,9 +40,69 @@ const TeacherItem: React.FC<TeacherItemProps> = ({
       </header>
 
       <p>{description}</p>
+      <ClassesList>
+        <ClassesListItem disabled>
+          <div>
+            <span>Dia</span>
+            <strong>Segunda</strong>
+          </div>
+
+          <div>
+            <span>Horário</span>
+            <strong>8h - 18h</strong>
+          </div>
+        </ClassesListItem>
+
+        <ClassesListItem>
+          <div>
+            <span>Dia</span>
+            <strong>Terça</strong>
+          </div>
+
+          <div>
+            <span>Horário</span>
+            <strong>8h - 18h</strong>
+          </div>
+        </ClassesListItem>
+
+        <ClassesListItem>
+          <div>
+            <span>Dia</span>
+            <strong>Quarta</strong>
+          </div>
+
+          <div>
+            <span>Horário</span>
+            <strong>8h - 18h</strong>
+          </div>
+        </ClassesListItem>
+
+        <ClassesListItem>
+          <div>
+            <span>Dia</span>
+            <strong>Quinta</strong>
+          </div>
+
+          <div>
+            <span>Horário</span>
+            <strong>8h - 18h</strong>
+          </div>
+        </ClassesListItem>
+        <ClassesListItem>
+          <div>
+            <span>Dia</span>
+            <strong>Quinta</strong>
+          </div>
+
+          <div>
+            <span>Horário</span>
+            <strong>8h - 18h</strong>
+          </div>
+        </ClassesListItem>
+      </ClassesList>
       <footer>
         <p>
-          Preço por hora
+          Preço/hora
           <strong>
             R$
             {hourPrice}
@@ -54,7 +114,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({
           onClick={handleCreateConnection}
         >
           <img src={whatsappImg} alt="Botão de Whatsapp" />
-          Entre em contato
+          Entrar em contato
         </a>
       </footer>
     </Container>

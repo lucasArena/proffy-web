@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react';
 
-import { Container, Form, ListTeacher } from './styles';
+import { Container, HeaderContent, Form, ListTeacher } from './styles';
+
+import smileIcon from '../../assets/images/icons/smile.svg';
 
 import Header from '../../components/Header';
 import TeacherItem from '../../components/TeacherItem';
@@ -36,7 +38,24 @@ const TeacherList: React.FC = () => {
 
   return (
     <Container>
-      <Header title="Estes são os proffys disponíveis" description="">
+      <Header
+        pageName="Estudar"
+        contentStyle={{
+          minHeight: '250px',
+          justifyContent: 'center',
+        }}
+      >
+        <HeaderContent>
+          <strong>Estes são os proffys disponíveis</strong>
+          <aside>
+            <img src={smileIcon} alt="Vai ser um máximo" />
+            <span>
+              <span>Preparare-se!</span>
+              <br />
+              <span>vai ser o máximo.</span>
+            </span>
+          </aside>
+        </HeaderContent>
         <Form onSubmit={handleFilter}>
           <Select
             label="Matéria"
@@ -68,6 +87,7 @@ const TeacherList: React.FC = () => {
           <button type="submit">Buscar</button>
         </Form>
       </Header>
+
       <ListTeacher>
         {teachers.map((teacher) => (
           <TeacherItem

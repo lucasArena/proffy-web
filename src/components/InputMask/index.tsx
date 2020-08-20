@@ -1,9 +1,10 @@
-import React, { InputHTMLAttributes, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
+import ReactInputMask, { Props as InputMaskProps } from 'react-input-mask';
 import { useField } from '@unform/core';
 
 import { Container, InputContainer } from './styles';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputMaskProps {
   label?: string;
   id?: string;
   name: string;
@@ -12,23 +13,24 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   iconAction?: () => void;
 }
 
-const Input: React.FC<InputProps> = ({
+const InputMask: React.FC<InputProps> = ({
+  name,
   label,
   id,
-  name,
-  icon,
   width,
-  iconAction,
   ...rest
 }) => {
-  const inputRef = useRef(null);
+  const inputMaskRef = useRef(null);
   const { defaultValue, fieldName, registerField } = useField(name);
 
   useEffect(() => {
     registerField({
       name: fieldName,
-      ref: inputRef.current,
+      ref: inputMaskRef.current,
       path: 'value',
+      setValue(ref: any, value: string) {
+        ref.setInputValue(value);
+      },
     });
   }, [fieldName, registerField]);
 
@@ -36,15 +38,16 @@ const Input: React.FC<InputProps> = ({
     <Container width={width}>
       <label htmlFor={id}>{label}</label>
       <InputContainer>
-        <input ref={inputRef} defaultValue={defaultValue} id={id} {...rest} />
-        {icon && (
-          <button type="button" onClick={iconAction}>
-            <img src={icon} alt="Icone" />
-          </button>
-        )}
+        <ReactInputMask
+          ref={inputMaskRef}
+          name={name}
+          id={id}
+          defaultValue={defaultValue}
+          {...rest}
+        />
       </InputContainer>
     </Container>
   );
 };
 
-export default Input;
+export default InputMask;

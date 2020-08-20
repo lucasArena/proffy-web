@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import {
   Container,
@@ -12,32 +12,33 @@ import backIcon from '../../assets/images/icons/back.svg';
 import logoImg from '../../assets/images/logo.svg';
 
 interface HeaderProps {
-  title: string;
-  description?: string;
+  pageName?: string;
   contentStyle?: object;
+  containerStyle?: object;
 }
 
 const Header: React.FC<HeaderProps> = ({
-  title,
-  description,
+  pageName,
   contentStyle,
+  containerStyle,
   children,
 }) => {
+  const { goBack } = useHistory();
+
   return (
     <Container>
-      <PageHeader>
+      <PageHeader style={containerStyle}>
         <TopbarContainer>
-          <Link to="/">
+          <button type="button" onClick={goBack}>
             <img src={backIcon} alt="Voltar" />
+          </button>
+          <h1>{pageName}</h1>
+          <Link to="/landing">
+            <img src={logoImg} alt="Proffy" />
           </Link>
-          <img src={logoImg} alt="Proffy" />
         </TopbarContainer>
 
-        <HeaderContent style={contentStyle}>
-          <strong>{title}</strong>
-          {description && <p>{description}</p>}
-          {children}
-        </HeaderContent>
+        <HeaderContent style={contentStyle}>{children}</HeaderContent>
       </PageHeader>
     </Container>
   );

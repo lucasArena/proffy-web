@@ -7,6 +7,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
   id?: string;
   name: string;
+  width?: string;
   options: Array<{ value: string; label: string }>;
 }
 
@@ -14,6 +15,7 @@ const Select: React.FC<SelectProps> = ({
   label,
   id,
   name,
+  width,
   options,
   ...rest
 }) => {
@@ -28,22 +30,21 @@ const Select: React.FC<SelectProps> = ({
   }, [fieldName, registerField]);
 
   return (
-    <Container>
-      <label htmlFor={id}>
-        {label}
-        <select defaultValue={defaultValue} ref={selectRef} id={id} {...rest}>
-          <option value="" disabled hidden>
-            Selecione uma opção
-          </option>
-          {options.map((option) => {
-            return (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            );
-          })}
-        </select>
-      </label>
+    <Container width={width}>
+      <label htmlFor={id}>{label}</label>
+
+      <select defaultValue={defaultValue} ref={selectRef} id={id} {...rest}>
+        <option value="" disabled hidden>
+          Selecione uma opção
+        </option>
+        {options.map((option) => {
+          return (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          );
+        })}
+      </select>
     </Container>
   );
 };

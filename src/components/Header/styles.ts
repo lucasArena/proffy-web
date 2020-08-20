@@ -16,30 +16,47 @@ export const PageHeader = styled.header`
 `;
 
 export const TopbarContainer = styled.div`
-  width: 90%;
+  width: 100vw;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   color: ${(props) => props.theme.colors.textPrimary};
+  background: ${(props) => props.theme.colors.primaryDarker};
 
   padding: 1.6rem 0;
 
-  a {
+  button {
     height: 3.2rem;
     transition: opacity 0.2s;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
 
     &:hover {
       opacity: 0.6;
     }
   }
 
-  > img {
-    height: 1.6rem;
+  h1 {
+    font-family: Archivo;
+    font-weight: 500;
+    font-size: 1.6rem;
+    line-height: 1.7rem;
+    color: ${(props) => props.theme.colors.textPrimary};
+  }
+
+  > a {
+    display: flex;
+    align-items: center;
+
+    > img {
+      height: 1.6rem;
+    }
   }
 
   @media (min-width: 700px) {
-    max-width: 1100px;
   }
 `;
 
@@ -50,6 +67,8 @@ export const HeaderContent = styled.section`
   margin: 3.2rem auto;
 
   > strong {
+    font-family: Archivo;
+    font-weight: bold;
     font: 700 2.6rem Archivo;
     line-height: 4.2rem;
     color: ${(props) => props.theme.colors.titlePrimary};
@@ -70,5 +89,10 @@ export const HeaderContent = styled.section`
     padding-bottom: 48px;
     display: flex;
     flex-direction: column;
+
+    strong {
+      font-size: 3.6rem;
+      line-height: 4.2rem;
+    }
   }
 `;

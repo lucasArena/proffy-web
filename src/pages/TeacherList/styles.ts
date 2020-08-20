@@ -10,6 +10,64 @@ export const Container = styled.div`
   }
 `;
 
+export const HeaderContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  strong {
+    font-family: Archivo;
+    color: ${(props) => props.theme.colors.boxBase};
+    line-height: 4.2rem;
+    text-align: center;
+    font-size: 2.4rem;
+  }
+
+  p {
+    font-family: Poppins;
+    line-height: 2.6rem;
+    color: ${(props) => props.theme.colors.textPrimary};
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  aside {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.4rem;
+
+    font-family: Poppins;
+    font-size: 1.2rem;
+    line-height: 2rem;
+    color: ${(props) => props.theme.colors.textPrimary};
+
+    img {
+      margin-right: 1.6rem;
+    }
+  }
+
+  @media (min-width: 700px) {
+    flex-direction: row;
+    justify-content: space-between;
+
+    strong {
+      grid-area: title;
+      display: flex;
+      align-items: center;
+      font-size: 3.6rem;
+      text-align: left;
+      max-width: 340px;
+    }
+
+    aside {
+      grid-area: iconarea;
+      display: flex;
+      align-items: center;
+    }
+  }
+`;
+
 export const Form = styled(UnformForm)`
   margin-top: 3.2rem;
 
@@ -46,6 +104,8 @@ export const Form = styled(UnformForm)`
     justify-content: center;
     transition: background-color 0.2s;
     margin-top: 3.2rem;
+    outline: 0;
+    border: 0;
 
     &:hover {
       background: ${(props) => props.theme.colors.secundaryDark};

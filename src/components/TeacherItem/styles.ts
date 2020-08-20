@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface ClassesListItemProps {
+  disabled?: boolean;
+}
 
 export const Container = styled.article`
   background: ${(props) => props.theme.colors.boxBase};
@@ -105,6 +109,70 @@ export const Container = styled.article`
 
     @media (min-width: 700px) {
       padding: 3.2rem;
+    }
+  }
+`;
+
+export const ClassesList = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 3.2rem;
+
+  @media (min-width: 700px) {
+    flex-direction: row;
+  }
+`;
+
+export const ClassesListItem = styled.article<ClassesListItemProps>`
+  height: 13.6rem;
+  background: ${(props) => props.theme.colors.boxFooter};
+
+  border: 1px solid ${(props) => props.theme.colors.lineWhite};
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 3rem;
+  align-items: center;
+
+  & + article {
+    margin-top: 1.6rem;
+  }
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      opacity: 0.4;
+    `}
+
+  div {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      font-family: Poppins;
+      font-size: 1.2rem;
+      line-height: 2rem;
+    }
+
+    strong {
+      font-family: Archivo;
+      font-weight: bold;
+      font-size: 1.6rem;
+      line-height: 2.6rem;
+      color: ${(props) => props.theme.colors.textBase};
+    }
+  }
+
+  @media (min-width: 700px) {
+    width: 12.2rem;
+    padding: 1.6rem;
+
+    & + article {
+      margin-left: 1.6rem;
     }
   }
 `;
