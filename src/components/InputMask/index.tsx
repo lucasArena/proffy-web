@@ -21,7 +21,7 @@ const InputMask: React.FC<InputProps> = ({
   ...rest
 }) => {
   const inputMaskRef = useRef(null);
-  const { defaultValue, fieldName, registerField } = useField(name);
+  const { defaultValue, fieldName, error, registerField } = useField(name);
 
   useEffect(() => {
     registerField({
@@ -37,7 +37,7 @@ const InputMask: React.FC<InputProps> = ({
   return (
     <Container width={width}>
       <label htmlFor={id}>{label}</label>
-      <InputContainer>
+      <InputContainer error={!!error}>
         <ReactInputMask
           ref={inputMaskRef}
           name={name}

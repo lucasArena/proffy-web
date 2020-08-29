@@ -85,7 +85,7 @@ export const FormSignup = styled(Form)`
 
   @media (min-width: 800px) {
     section {
-      width: 65%;
+      margin-bottom: 0;
       h1 {
         text-align: left;
         margin-bottom: 2.1rem;

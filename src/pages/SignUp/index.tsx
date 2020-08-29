@@ -107,13 +107,24 @@ const SignUp: React.FC = () => {
               <h1>Cadastro</h1>
               <h2>Preencha os dados abaixo para começar.</h2>
             </section>
-            <Input name="name" placeholder="Nome" onKeyUp={validateForm} />
             <Input
+              width="100%"
+              name="name"
+              placeholder="Nome"
+              onKeyUp={validateForm}
+            />
+            <Input
+              width="100%"
               name="surname"
               placeholder="Sobrenome"
               onKeyUp={validateForm}
             />
-            <Input name="email" placeholder="Email" onKeyUp={validateForm} />
+            <Input
+              width="100%"
+              name="email"
+              placeholder="Email"
+              onKeyUp={validateForm}
+            />
             <Input
               type={passwordType}
               name="password"

@@ -25,6 +25,7 @@ export const Container = styled.section<ContainerProps>`
 
 export const InputContainer = styled.div<InputContainerProps>`
   display: flex;
+  align-items: center;
 
   position: relative;
   background: ${(props) => props.theme.colors.boxFooter};
@@ -38,6 +39,10 @@ export const InputContainer = styled.div<InputContainerProps>`
     css`
       border: 1px solid ${props.theme.colors.deleteButtonText};
     `}
+
+  span {
+    margin-right: 0.5rem;
+  }
 
   input {
     width: 100%;

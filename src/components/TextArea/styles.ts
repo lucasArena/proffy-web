@@ -1,23 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface ContainerTextAreaProps {
+  error: boolean;
+}
 
 export const Container = styled.div`
   position: relative;
   label {
     color: ${(props) => props.theme.colors.textPrimary};
-
-    textarea {
-      width: 100%;
-      height: 16rem;
-      margin-top: 0.8rem;
-      border-radius: 0.8rem;
-      background: ${(props) => props.theme.colors.inputBackground};
-      border: 1px solid ${(props) => props.theme.colors.lineWhite};
-      outline: 0;
-      padding: 1.2rem 1.6rem;
-      resize: vertical;
-      font: 1.6rem Archivo;
-      min-height: 8rem;
-    }
   }
 
   & + div {
@@ -27,6 +17,31 @@ export const Container = styled.div`
       margin-top: 0;
     }
   }
+`;
+
+export const ContainerTextArea = styled.div<ContainerTextAreaProps>`
+  background: ${(props) => props.theme.colors.inputBackground};
+  border: 1px solid ${(props) => props.theme.colors.lineWhite};
+  border-radius: 0.8rem;
+  padding: 1.2rem 1.6rem;
+
+  textarea {
+    width: 100%;
+    height: 16rem;
+    margin-top: 0.8rem;
+    outline: 0;
+    resize: vertical;
+    font: 1.6rem Archivo;
+    min-height: 8rem;
+    border: 0;
+    background: ${(props) => props.theme.colors.inputBackground};
+  }
+
+  ${(props) =>
+    props.error &&
+    css`
+      border: 1px solid ${props.theme.colors.deleteButtonText};
+    `}
 
   &:focus-within::after {
     width: calc(100% - 3.2rem);

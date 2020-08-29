@@ -1,5 +1,8 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { FormHandles } from '@unform/core';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import {
   Container,
@@ -16,16 +19,19 @@ import rocketIcon from '../../assets/images/icons/rocket.svg';
 
 import Header from '../../components/Header';
 
-import Input from '../../components/Input';
 import Textarea from '../../components/TextArea';
 import Select from '../../components/Select';
-import api from '../../services/api';
 import InputMask from '../../components/InputMask';
+import InputMoney from '../../components/InputMoney';
+
+import api from '../../services/api';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 interface ScheduleProps {
+  days: { value: string; label: string }[];
   week_day: string;
-  from: string;
-  to: string;
+  from: Date;
+  to: Date;
 }
 
 interface FormProps {
@@ -33,30 +39,53 @@ interface FormProps {
   bio: string;
   whatsapp: string;
   avatar: string;
-  cost: number;
+  cost: string;
   subject: string;
   schedule: ScheduleProps[];
 }
 
 const TeacherForm: React.FC = () => {
-  const formRef = useRef(null);
+  const formRef = useRef<FormHandles>(null);
+  const [notUsedDays] = useState([
+    { value: '0', label: 'Domingo' },
+    { value: '1', label: 'Segunda-feira' },
+    { value: '2', label: 'Terça-feira' },
+    { value: '3', label: 'Quarta-feira' },
+    { value: '4', label: 'Quinta-feira' },
+    { value: '5', label: 'Sexta-feira' },
+    { value: '6', label: 'Sabádo' },
+  ]);
   const history = useHistory();
 
   const [scheduleClasses, setScheduleClasses] = useState<ScheduleProps[]>([
-    { week_day: '', from: '', to: '' },
+    { days: notUsedDays, week_day: '', from: new Date(), to: new Date() },
   ]);
 
   const addNewScheduleItem = useCallback(() => {
+    const formData = formRef.current?.getData() as FormProps;
+    const usedDaysArray = formData.schedule.map(
+      (scheduleItem) => scheduleItem.week_day,
+    );
+
+    const availableWeekDays = notUsedDays.filter(
+      (day) => !usedDaysArray.includes(day.value),
+    );
+
     setScheduleClasses((oldScheduleClasses) => [
       ...oldScheduleClasses,
-      { week_day: '', from: '', to: '' },
+      {
+        days: availableWeekDays,
+        week_day: '',
+        from: new Date(),
+        to: new Date(),
+      },
     ]);
-  }, []);
+  }, [notUsedDays]);
 
   const handleRemoveSchedule = useCallback(
-    (index: number) => {
+    (scheduleClass: ScheduleProps, index: number) => {
       const scheduleRemoved = scheduleClasses.filter(
-        (scheduleItem, scheduleItemIndex) => scheduleItemIndex !== index,
+        (_, scheduleItemIndex) => scheduleItemIndex !== index,
       );
 
       if (!scheduleRemoved.length) {
@@ -68,26 +97,63 @@ const TeacherForm: React.FC = () => {
     [scheduleClasses],
   );
 
-  const handleSubmit = useCallback(
-    async (data: FormProps) => {
-      console.log(data);
-      try {
-        // await api.post('/classes', {
-        //   ...data,
-        // });
-        history.push('/success', {
-          title: 'Cadastro salvo!',
-          description:
-            'Tudo certo, seu cadastro está na nossa lista de professores. Agora é só ficar de olho no seu WhatsApp.',
-          redirectTo: '/landing',
-          buttonText: 'Acessar',
-        });
-      } catch (e) {
-        // alert('ERRO');
-      }
-    },
-    [history],
-  );
+  const handleSubmit = useCallback(async (data: FormProps) => {
+    try {
+      formRef.current?.setErrors([]);
+      const formattedCost = data.cost.replace(/\./g, '').replace(/,/g, '.');
+      const formattedWhatsapp = data.whatsapp.replace(/\D/g, '');
+      const formattedData = {
+        ...data,
+        cost: formattedCost,
+        whatsapp: formattedWhatsapp,
+      };
+
+      const schema = Yup.object().shape({
+        whatsapp: Yup.string().required('Número do whatsapp obrigatório'),
+        bio: Yup.string().required('Biografia obrigatória'),
+        subject: Yup.string().required('Matéria obrigatória'),
+        cost: Yup.string().required('Custo obrigatório'),
+        schedule: Yup.array().of(
+          Yup.object().shape({
+            week_day: Yup.number().required('Dia da semana obrigatório'),
+            from: Yup.string()
+              .test(
+                'start_time_test',
+                'End time must be before start time',
+                function testStartTime(fromField) {
+                  const startHour = fromField;
+                  if (startHour) {
+                    return startHour < this.parent.to;
+                  }
+
+                  return false;
+                },
+              )
+              .required('Horário de início obrigatório'),
+            to: Yup.string().required('Horário de encerramento obrigatório'),
+          }),
+        ),
+      });
+
+      await schema.validate(formattedData, {
+        abortEarly: false,
+      });
+
+      // await api.post('/classes', {
+      //   ...data,
+      // });
+      // history.push('/success', {
+      //   title: 'Cadastro salvo!',
+      //   description:
+      //     'Tudo certo, seu cadastro está na nossa lista de professores. Agora é só ficar de olho no seu WhatsApp.',
+      //   redirectTo: '/landing',
+      //   buttonText: 'Acessar',
+      // });
+    } catch (err) {
+      const errors = getValidationErrors(err);
+      formRef.current?.setErrors(errors);
+    }
+  }, []);
 
   return (
     <Container>
@@ -123,7 +189,6 @@ const TeacherForm: React.FC = () => {
               <span>Lucas Arena</span>
             </UserInfo>
             <InputMask
-              maskChar=""
               mask="(99) 99999-9999"
               width="35%"
               label="WhatsApp"
@@ -149,12 +214,12 @@ const TeacherForm: React.FC = () => {
                 { value: 'História', label: 'História' },
               ]}
             />
-            <Input
-              label="Custo da sua hora por aula"
+            <InputMoney
               name="cost"
               id="cost"
               width="50%"
-              placeholder="R$ 0,00"
+              placeholder="0,00"
+              prefix="R$"
             />
           </InputGroup>
         </fieldset>
@@ -174,32 +239,36 @@ const TeacherForm: React.FC = () => {
                   <Select
                     label="Dia da semana"
                     name={`schedule[${index}][week_day]`}
-                    options={[
-                      { value: '0', label: 'Domingo' },
-                      { value: '1', label: 'Segunda-feira' },
-                      { value: '2', label: 'Terça-feira' },
-                      { value: '3', label: 'Quarta-feira' },
-                      { value: '4', label: 'Quinta-feira' },
-                      { value: '5', label: 'Sexta-feira' },
-                      { value: '6', label: 'Sabádo' },
+                    options={scheduleClass.days}
+                  />
+                  <InputMask
+                    label="Das"
+                    name={`schedule[${index}][from]`}
+                    mask={[
+                      /^([0-1])/,
+                      /[0-9]|2[0-4]/,
+                      ':',
+                      /([0-5])/,
+                      /([0-9])$/,
                     ]}
                   />
-                  <Input
-                    name={`schedule[${index}][from]`}
-                    label="Das"
-                    type="time"
-                  />
-                  <Input
-                    name={`schedule[${index}][to]`}
+                  <InputMask
                     label="Até"
-                    type="time"
+                    name={`schedule[${index}][to]`}
+                    mask={[
+                      /^([0-1])/,
+                      /[0-9]|2[0-4]/,
+                      ':',
+                      /([0-5])/,
+                      /([0-9])$/,
+                    ]}
                   />
                 </ScheduleArea>
                 <DeleteScheduleArea>
                   <hr />
                   <button
                     type="button"
-                    onClick={() => handleRemoveSchedule(index)}
+                    onClick={() => handleRemoveSchedule(scheduleClass, index)}
                   >
                     Excluir horário
                   </button>

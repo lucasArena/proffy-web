@@ -1,7 +1,7 @@
 import React, { TextareaHTMLAttributes, useEffect, useRef } from 'react';
 import { useField } from '@unform/core';
 
-import { Container } from './styles';
+import { Container, ContainerTextArea } from './styles';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
@@ -11,7 +11,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 const Textarea: React.FC<TextareaProps> = ({ label, id, name, ...rest }) => {
   const textareaRef = useRef(null);
-  const { defaultValue, fieldName, registerField } = useField(name);
+  const { defaultValue, fieldName, error, registerField } = useField(name);
 
   useEffect(() => {
     registerField({
@@ -25,12 +25,14 @@ const Textarea: React.FC<TextareaProps> = ({ label, id, name, ...rest }) => {
     <Container>
       <label htmlFor={id}>
         {label}
-        <textarea
-          ref={textareaRef}
-          defaultValue={defaultValue}
-          id={id}
-          {...rest}
-        />
+        <ContainerTextArea error={!!error}>
+          <textarea
+            ref={textareaRef}
+            defaultValue={defaultValue}
+            id={id}
+            {...rest}
+          />
+        </ContainerTextArea>
       </label>
     </Container>
   );
