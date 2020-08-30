@@ -1,12 +1,18 @@
 import React, { useCallback, useState } from 'react';
 
-import { Container, HeaderContent, Form, ListTeacher } from './styles';
+import {
+  Container,
+  HeaderContent,
+  Form,
+  ListTeacher,
+  NoResult,
+} from './styles';
 
 import smileIcon from '../../assets/images/icons/smile.svg';
 
 import Header from '../../components/Header';
 import TeacherItem from '../../components/TeacherItem';
-import Input from '../../components/Input';
+import InputMask from '../../components/InputMask';
 import Select from '../../components/Select';
 import api from '../../services/api';
 
@@ -61,6 +67,7 @@ const TeacherList: React.FC = () => {
             label="Matéria"
             id="subject"
             name="subject"
+            placeholder="Selecione"
             options={[
               { value: 'Química', label: 'Química' },
               { value: 'Matématica', label: 'Matématica' },
@@ -73,6 +80,7 @@ const TeacherList: React.FC = () => {
             label="Dia da semana"
             id="week_day"
             name="week_day"
+            placeholder="Selecione"
             options={[
               { value: '0', label: 'Domingo' },
               { value: '1', label: 'Segunda-feira' },
@@ -83,24 +91,35 @@ const TeacherList: React.FC = () => {
               { value: '6', label: 'Sabádo' },
             ]}
           />
-          <Input label="Hora" name="time" type="time" id="time" />
+          <InputMask
+            label="Hora"
+            name="time"
+            id="time"
+            mask={[/^([0-1])/, /[0-9]|2[0-4]/, ':', /([0-5])/, /([0-9])$/]}
+          />
           <button type="submit">Buscar</button>
         </Form>
       </Header>
 
       <ListTeacher>
-        {teachers.map((teacher) => (
-          <TeacherItem
-            key={teacher.id}
-            user_id={teacher.user.id}
-            avatar={teacher.user.avatar}
-            name={teacher.user.name}
-            subject={teacher.subject}
-            description={teacher.user.bio}
-            hourPrice={teacher.cost}
-            whatsapp={teacher.user.whatsapp}
-          />
-        ))}
+        {teachers.length ? (
+          teachers.map((teacher) => (
+            <TeacherItem
+              key={teacher.id}
+              user_id={teacher.user.id}
+              avatar={teacher.user.avatar}
+              name={teacher.user.name}
+              subject={teacher.subject}
+              description={teacher.user.bio}
+              hourPrice={teacher.cost}
+              whatsapp={teacher.user.whatsapp}
+            />
+          ))
+        ) : (
+            <NoResult>
+              <span>Nenhum professor encontrado com sua pesquisa.</span>
+            </NoResult>
+          )}
       </ListTeacher>
     </Container>
   );

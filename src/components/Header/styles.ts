@@ -16,7 +16,7 @@ export const PageHeader = styled.header`
 `;
 
 export const TopbarContainer = styled.div`
-  width: 100vw;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: space-around;

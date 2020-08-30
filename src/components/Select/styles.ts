@@ -33,6 +33,10 @@ export const Container = styled.section<ContainerProps>`
     }
   }
 
+  .css-1okebmr-indicatorSeparator {
+    display: none;
+  }
+
   &:focus-within::after {
     width: calc(100% - 3.2rem);
     height: 2px;

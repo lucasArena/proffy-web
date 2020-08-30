@@ -204,6 +204,7 @@ const TeacherForm: React.FC = () => {
           <InputGroup>
             <Select
               label="Matéria"
+              placeholder="Matéria"
               name="subject"
               id="subject"
               options={[
@@ -215,6 +216,7 @@ const TeacherForm: React.FC = () => {
               ]}
             />
             <InputMoney
+              label="Custo da sua hora por aula"
               name="cost"
               id="cost"
               width="50%"
@@ -238,6 +240,7 @@ const TeacherForm: React.FC = () => {
                 <ScheduleArea key={scheduleClass.week_day}>
                   <Select
                     label="Dia da semana"
+                    placeholder="Selecione o dia"
                     name={`schedule[${index}][week_day]`}
                     options={scheduleClass.days}
                   />

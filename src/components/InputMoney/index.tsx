@@ -11,10 +11,16 @@ import { Container, InputContainer } from './styles';
 
 interface InputMoneyProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
+  label?: string;
   prefix?: string;
 }
 
-const InputMoney: React.FC<InputMoneyProps> = ({ prefix, name, ...rest }) => {
+const InputMoney: React.FC<InputMoneyProps> = ({
+  prefix,
+  name,
+  label,
+  ...rest
+}) => {
   const inputRef = useRef(null);
   const { defaultValue, fieldName, error, registerField } = useField(name);
 
@@ -37,7 +43,7 @@ const InputMoney: React.FC<InputMoneyProps> = ({ prefix, name, ...rest }) => {
   }, [registerField, fieldName]);
   return (
     <Container>
-      <label>Custo</label>
+      <label>{label}</label>
       <InputContainer error={!!error}>
         {prefix && <span>{prefix}</span>}
         <input

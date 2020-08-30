@@ -121,6 +121,7 @@ export const ClassesList = styled.section`
 
   @media (min-width: 700px) {
     flex-direction: row;
+    padding: 0 2rem;
   }
 `;
 
@@ -168,10 +169,14 @@ export const ClassesListItem = styled.article<ClassesListItemProps>`
   }
 
   @media (min-width: 700px) {
-    width: 12.2rem;
+    width: 100%;
     padding: 1.6rem;
+    margin: 0;
 
     & + article {
+      align-items: flex-start;
+
+      margin-top: 0;
       margin-left: 1.6rem;
     }
   }

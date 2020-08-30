@@ -1,7 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface ContainerProps {
   width?: string;
+}
+
+interface InputContainerProps {
+  error: boolean;
 }
 
 export const Container = styled.section<ContainerProps>`
@@ -19,7 +23,7 @@ export const Container = styled.section<ContainerProps>`
   }
 `;
 
-export const InputContainer = styled.div`
+export const InputContainer = styled.div<InputContainerProps>`
   display: flex;
 
   position: relative;
@@ -28,6 +32,12 @@ export const InputContainer = styled.div`
   padding: 0 1.6rem;
   margin-top: 0.8rem;
   border-radius: 8px;
+
+  ${(props) =>
+    props.error &&
+    css`
+      border: 1px solid ${props.theme.colors.deleteButtonText};
+    `}
 
   input {
     width: 100%;

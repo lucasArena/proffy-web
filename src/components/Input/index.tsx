@@ -22,7 +22,7 @@ const Input: React.FC<InputProps> = ({
   ...rest
 }) => {
   const inputRef = useRef(null);
-  const { defaultValue, fieldName, registerField } = useField(name);
+  const { defaultValue, fieldName, error, registerField } = useField(name);
 
   useEffect(() => {
     registerField({
@@ -35,8 +35,14 @@ const Input: React.FC<InputProps> = ({
   return (
     <Container width={width}>
       <label htmlFor={id}>{label}</label>
-      <InputContainer>
-        <input ref={inputRef} defaultValue={defaultValue} id={id} {...rest} />
+      <InputContainer error={!!error}>
+        <input
+          ref={inputRef}
+          defaultValue={defaultValue}
+          name={name}
+          id={id}
+          {...rest}
+        />
         {icon && (
           <button type="button" onClick={iconAction}>
             <img src={icon} alt="Icone" />

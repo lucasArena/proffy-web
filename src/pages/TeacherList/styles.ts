@@ -124,10 +124,29 @@ export const Form = styled(UnformForm)`
 export const ListTeacher = styled.main`
   margin: 3.2rem auto;
   width: 90%;
+  height: 60%;
 
   @media (min-width: 700px) {
     padding: 3.2rem 0;
     max-width: 740px;
     margin: 0 auto;
+  }
+`;
+
+export const NoResult = styled.section`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  span {
+    font-family: Poppins;
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+    max-width: 25rem;
+    text-align: center;
+
+    color: ${(props) => props.theme.colors.textComplement};
   }
 `;
